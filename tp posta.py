@@ -16,6 +16,37 @@ def find_redundant_links(graph, mst_edges):
 
     return redundant_edges
 
+# DFS para verificar múltiples caminos entre nodos
+def dfs(graph, start, end, visited=None):
+    if visited is None:
+        visited = set()
+    visited.add(start)
+    if start == end:
+        return True
+
+    for neighbor, weight in graph.get_adjacency_list(start):
+        if neighbor not in visited:
+            if dfs(graph, neighbor, end, visited):
+                return True
+    return False
+
+
+#Verificar redundancia entre los nodos criticos
+def verify_redundancy(graph, mst_edges, critical_edges):
+    redundant_edges = find_redundant_links(graph, mst_edges)
+    final_network = list(mst_edges)
+    # Para cada par de nodo crítico, verificar que haya múltiples caminos
+    for u, v in critical_edges:
+        visited = set()
+        if not dfs(graph, u, v, visited):
+            # Si no hay camino adicional, agregar arista de respaldo
+            for edge in redundant_edges:
+                if (edge[0] == u and edge[1] == v) or (edge[0] == v and edge[1] == u):
+                    final_network.append(edge)
+                    break
+    
+    return final_network
+
 # Construye la red con redundancia para asegurar rutas alternativas entre algunos nodos.
 def build_redundant_network():
     # Crear el grafo
@@ -39,12 +70,16 @@ def build_redundant_network():
     mst_edges = kruskal_algorithm(graph)
     print("MST Edges:", mst_edges)
 
+    #Crear nodos criticos
+    critical_edges = [('A', 'D'), ('B', 'D')]
+
     # Buscar enlaces adicionales para redundancia
     redundant_edges = find_redundant_links(graph, mst_edges)
     print("Redundant Edges:", redundant_edges)
 
     # Construir red final combinando MST y enlaces redundantes
-    redundant_network = mst_edges + redundant_edges
+    redundant_network = verify_redundancy(graph, mst_edges, critical_edges)
+
 
     # Crear subplots para mostrar ambos grafos a la vez
     plt.figure(figsize=(12, 6))
