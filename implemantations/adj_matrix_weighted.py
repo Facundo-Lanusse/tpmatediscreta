@@ -1,5 +1,5 @@
 
-from weighted_graph import WeightedGraph
+from implemantations.weighted_graph import WeightedGraph
 
 
 class WeightedAdjacencyMatrixGraph(WeightedGraph):

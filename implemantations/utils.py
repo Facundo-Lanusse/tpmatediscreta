@@ -1,6 +1,6 @@
 import random
 
-from implementations.adj_list import AdjacencyListGraph
+from adj_list import AdjacencyListGraph
 
 
 def create_random_graph(num_vertices, num_edges):

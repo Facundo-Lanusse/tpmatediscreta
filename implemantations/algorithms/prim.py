@@ -1,7 +1,7 @@
 import heapq
 
-from implementations.adj_matrix_weighted import WeightedAdjacencyMatrixGraph
-from implementations.weighted_graph import WeightedGraph
+from implemantations.adj_matrix_weighted import WeightedAdjacencyMatrixGraph
+from implemantations.weighted_graph import WeightedGraph
 
 
 def prim_algorithm(graph: WeightedGraph, start_vertex):

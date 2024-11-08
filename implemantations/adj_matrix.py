@@ -1,4 +1,4 @@
-from implementations.graph import Graph
+from implemantations.graph import Graph
 
 class AdjacencyMatrixGraph(Graph):
     def __init__(self, directed=False):
